@@ -126,8 +126,7 @@ Here is an example inspired of the [GitHub of Sismo](https://github.com/fabpot/S
 It shows you the changes I made and use. 
 Please modify as you need.
 
-```
-#!php
+```php
 
 <?php
 
@@ -199,7 +198,8 @@ Commits in the branch *myfeature* will not run a build since I didn't put this b
 
 Please modify the *PROJECT_NAME* and the *path to sismo* only.
 
-```
+```bash
+
 #!/bin/bash
 
 # Get the name of the current branch
