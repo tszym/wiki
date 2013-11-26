@@ -138,8 +138,14 @@ $projects = array();
 // create a DBus notifier (for Linux)
 $notifier = new Sismo\Notifier\DBusNotifier();
 
-//Set default command to run (use composer if the project has to use it)
+// Set default command to run (use composer if the project has to use it)
+// Use it if you don't need secrets parameters for your app.
 Sismo\Project::setDefaultCommand('if [ -f composer.json ]; then composer install --no-interaction --dev; fi && phpunit -c app/ src/');
+
+// Parts of the previous command used when you need to copy 
+// your parameters.yml file
+$beginCommand = 'if [ -f composer.json ]; then composer install --no-interaction --dev; fi ';
+$endCommand = ' && phpunit -c app/ src/';
 
 //-----------------
 // Projects section
@@ -161,6 +167,13 @@ $projects[] = new Sismo\GithubProject('Twig', 'fabpot/Twig', $notifier);
 // and the @branch in the path
 $projects[] = new Sismo\GithubProject('tszym-myproject-master', '/path/to/repo/myproject@master', $notifier);
 $projects[] = new Sismo\GithubProject('tszym-myproject-develop', '/path/to/repo/myproject@develop', $notifier);
+
+// Add a project and copy your parameters.yml file
+// Use it if you have to run tests that need the secrets parameters
+// like database password
+$myProjectUsingpassword = new Sismo\GithubProject('tszym-myproject-usingpassword', '/path/to/repo/myproject@usingpassword', $notifier);
+$myProjectUsingpassword->setCommand($beginCommand . '&& cp /path/to/parameters.yml ./app/config/' . $endCommand);
+$projects[] = $myProjectUsingpassword;
 
 // add a project with custom settings
 $sf2 = new Sismo\Project('Symfony');
